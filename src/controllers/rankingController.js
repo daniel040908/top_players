@@ -9,14 +9,7 @@ export async function listar(req, res) {
 // Listar rankings por jogo
 export async function listarPorJogo(req, res) {
     const { jogoId } = req.params;
-    const rankings = await rankingModels.listarRankingsPorJogo(jogoId);
-    res.json(rankings);
-}
-
-// Listar rankings por temporada
-export async function listarPorTemporada(req, res) {
-    const { temporada } = req.params;
-    const rankings = await rankingModels.listarRankingsPorTemporada(temporada);
+    const rankings = await rankingModels.rankingPorJogo(jogoId);
     res.json(rankings);
 }
 
@@ -43,28 +36,5 @@ export async function criar(req, res) {
     res.status(201).json({
         msg: "Ranking criado com sucesso",
         id: id
-    });
-}
-
-// Deletar ranking
-export async function deletar(req, res) {
-    const ranking = await rankingModels.buscarRanking(req.params.id);
-    
-    if (!ranking) {
-        return res.status(404).json({ msg: "Ranking não encontrado" });
-    }
-    
-    await rankingModels.deletarRanking(req.params.id);
-    res.status(200).json({ msg: "Ranking deletado com sucesso" });
-}
-
-// Deletar rankings por temporada
-export async function deletarPorTemporada(req, res) {
-    const { temporada } = req.params;
-    
-    const deletados = await rankingModels.deletarRankingsPorTemporada(temporada);
-    
-    res.status(200).json({ 
-        msg: `${deletados} rankings da temporada ${temporada} deletados com sucesso` 
     });
 }
